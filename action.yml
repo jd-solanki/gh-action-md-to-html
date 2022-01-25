@@ -1,0 +1,16 @@
+name: 'Markdown to HTML'
+description: 'Convert markdown files to html files'
+author: themeselection
+branding:
+  icon: award
+  color: purple
+inputs:
+  files:
+    description: 'Stringified Array of [Array of source md file & file to generate] (i.e. [ ["index.md", "index.html"], ["changelog.md", "changelog.html"]])'
+    required: false
+  debug:
+    description: Boolean value which will tell action to log the action it performs. Useful for debugging.
+    default: false
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
