@@ -1,4 +1,4 @@
-module.exports = `/* Thanks: https://github.com/sindresorhus/github-markdown-css/blob/main/github-markdown.css */
+module.exports = `
 @media (prefers-color-scheme: dark) {
   .markdown-body {
     color-scheme: dark;

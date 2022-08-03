@@ -1,12 +1,15 @@
+/* eslint-disable no-nested-ternary */
 // Docs: https://docs.github.com/en/actions
 const core = require('@actions/core')
 const { promises: fs } = require('fs')
 const MarkdownIt = require('./markdown-it.min')
-const stylesheetContent = require('./gh-md-style')
+const themeAuto = require('./styles/github-markdown')
+const themeLight = require('./styles/github-markdown-light')
+const themeDark = require('./styles/github-markdown-dark')
 
 const md = new MarkdownIt()
 
-async function mdToHtml(filePath, debug) {
+async function mdToHtml(filePath, debug, theme) {
   // Read source file
   const content = await fs.readFile(filePath, 'utf8')
   if (debug) core.info(`content of ${filePath}: ${content}`)
@@ -20,7 +23,11 @@ async function mdToHtml(filePath, debug) {
 <meta charset="UTF-8" />
 <title>Changelog</title>
 <style>
-${stylesheetContent}
+${theme === 'light'
+    ? themeLight
+    : theme === 'dark'
+      ? themeDark
+      : themeAuto}
 /* recommended style from docs: https://github.com/sindresorhus/github-markdown-css */
 .markdown-body {
     box-sizing: border-box;
@@ -49,7 +56,11 @@ ${rendered}
   try {
     // 👉 Get config
     const debug = Boolean(JSON.parse(core.getInput('debug')))
+    const theme = core.getInput('theme')
+
     if (debug) core.info(`debug: ${debug}`)
+
+    if (debug) core.info(`theme: ${theme}`)
 
     const files = JSON.parse(core.getInput('files'))
     if (debug) core.info(`files: ${files}`)
@@ -71,8 +82,8 @@ ${rendered}
       if (debug) core.info(`Working on: ${JSON.stringify(files[index])}`)
       if (debug) core.info(`writing ${files[index][1]}`)
 
-      if (debug) core.info(`HTML content to write: ${await mdToHtml(files[index][0], debug)}`)
-      await fs.writeFile(files[index][1], await mdToHtml(files[index][0], debug), err => { if (err) core.warning(err) })
+      if (debug) core.info(`HTML content to write: ${await mdToHtml(files[index][0], debug, theme)}`)
+      await fs.writeFile(files[index][1], await mdToHtml(files[index][0], debug, theme), err => { if (err) core.warning(err) })
       if (debug) core.info('Written to HTML file')
     }
 
