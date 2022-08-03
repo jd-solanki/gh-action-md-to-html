@@ -1,5 +1,5 @@
-name: 'Markdown to HTML'
-description: 'Convert markdown files to html files'
+name: 'Convert Markdown to HTML'
+description: 'Convert multiple markdown files to html files'
 author: themeselection
 branding:
   icon: award
