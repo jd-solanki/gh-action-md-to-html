@@ -1,6 +1,6 @@
 {
   "name": "gh-action-md-to-html",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Converts markdown files to HTML",
   "main": "index.js",
   "scripts": {
