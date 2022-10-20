@@ -9,7 +9,7 @@ inputs:
     description: 'Stringified Array of [Array of source md file & file to generate] (i.e. [ ["index.md", "index.html"], ["changelog.md", "changelog.html"]])'
     required: false
   theme:
-    description: 'Github Markdown theme to use. Options: "Auto", "Light" or "Dark"'
+    description: 'Github Markdown theme to use. Options: "auto", "light" or "dark"'
     default: Auto
   debug:
     description: Boolean value which will tell action to log the action it performs. Useful for debugging.
