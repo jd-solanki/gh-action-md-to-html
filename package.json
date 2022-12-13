@@ -4,6 +4,7 @@
   "description": "Converts markdown files to HTML",
   "main": "index.js",
   "scripts": {
+    "release": "bumpp package.json",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "ncc build index.js --license licenses.txt"
   },
@@ -20,6 +21,7 @@
   "homepage": "https://github.com/jd-0001/gh-action-md-to-html#readme",
   "devDependencies": {
     "@vercel/ncc": "^0.33.1",
+    "bumpp": "^8.2.1",
     "eslint": "^8.7.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4"
