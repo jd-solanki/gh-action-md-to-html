@@ -2,12 +2,14 @@
 // Docs: https://docs.github.com/en/actions
 const core = require('@actions/core')
 const { promises: fs } = require('fs')
-const MarkdownIt = require('./markdown-it.min')
+const MarkdownIt = require('markdown-it')
 const themeAuto = require('./styles/github-markdown')
 const themeLight = require('./styles/github-markdown-light')
 const themeDark = require('./styles/github-markdown-dark')
 
-const md = new MarkdownIt()
+const md = new MarkdownIt({
+  html: true,
+})
 
 async function mdToHtml(filePath, debug, theme) {
   // Read source file
