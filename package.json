@@ -25,6 +25,7 @@
     "eslint-plugin-import": "^2.25.4"
   },
   "dependencies": {
-    "@actions/core": "^1.6.0"
+    "@actions/core": "^1.6.0",
+    "markdown-it": "^13.0.1"
   }
 }
