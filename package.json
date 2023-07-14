@@ -4,7 +4,7 @@
   "description": "Converts markdown files to HTML",
   "main": "index.js",
   "scripts": {
-    "release": "bumpp package.json",
+    "release": "npm run build && bumpp package.json",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "ncc build index.js --license licenses.txt"
   },
