@@ -12949,7 +12949,7 @@ const md = new MarkdownIt({
   html: true,
 })
 
-async function mdToHtml(filePath, debug, theme) {
+async function mdToHtml(filePath, debug, theme, options) {
   // Read source file
   const content = await fs.readFile(filePath, 'utf8')
   if (debug) core.info(`content of ${filePath}: ${content}`)
@@ -12957,11 +12957,16 @@ async function mdToHtml(filePath, debug, theme) {
   // converted to HTML
   const rendered = md.render(content)
 
+  const titleTag = options.title ? `<title>${options.title}</title>` : ''
+  const faviconTag = options.favicon ? `<link rel="icon" href="${options.favicon}" />` : ''
+
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Changelog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+${faviconTag}
+${titleTag}
 <style>
 ${theme === 'light'
     ? themeLight
@@ -12997,10 +13002,14 @@ ${rendered}
     // 👉 Get config
     const debug = Boolean(JSON.parse(core.getInput('debug')))
     const theme = core.getInput('theme')
+    const pageTitle = core.getInput('title')
+    const favicon = core.getInput('favicon')
 
     if (debug) core.info(`debug: ${debug}`)
 
     if (debug) core.info(`theme: ${theme}`)
+    if (debug) core.info(`pageTitle: ${pageTitle}`)
+    if (debug) core.info(`favicon: ${favicon}`)
 
     const files = JSON.parse(core.getInput('files'))
     if (debug) core.info(`files: ${files}`)
@@ -13022,8 +13031,9 @@ ${rendered}
       if (debug) core.info(`Working on: ${JSON.stringify(files[index])}`)
       if (debug) core.info(`writing ${files[index][1]}`)
 
-      if (debug) core.info(`HTML content to write: ${await mdToHtml(files[index][0], debug, theme)}`)
-      await fs.writeFile(files[index][1], await mdToHtml(files[index][0], debug, theme), err => { if (err) core.warning(err) })
+      const html = await mdToHtml(files[index][0], debug, theme, { title: pageTitle, favicon })
+      if (debug) core.info(`HTML content to write: ${html}`)
+      await fs.writeFile(files[index][1], html, err => { if (err) core.warning(err) })
       if (debug) core.info('Written to HTML file')
     }
 
